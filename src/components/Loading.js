@@ -12,6 +12,9 @@ export default function Loading({ $app, initialState }) {
 
   this.render = () => {
     console.log('Loading render!!')
+    this.$target.innerHTML = `<div class="content"><img src="./assets/nyan-cat.gif"></div>`
+
+    this.$target.style.display = this.state ? 'block' : 'none'
   }
 
   this.render()
