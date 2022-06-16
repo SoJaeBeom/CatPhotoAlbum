@@ -1,8 +1,8 @@
-export default function Breadcrumb({ $app, initialState }) {
+export default function Loading({ $app, initialState }) {
   this.state = initialState
+  this.$target = document.createElement('div')
+  this.$target.className = 'Loading Modal'
 
-  this.$target = document.createElement('nav')
-  this.$target.className = 'Breadcrumb'
   $app.appendChild(this.$target)
 
   this.setState = (nextState) => {
@@ -11,7 +11,7 @@ export default function Breadcrumb({ $app, initialState }) {
   }
 
   this.render = () => {
-    console.log('Breadcrumb render!!')
+    console.log('Loading render!!')
   }
 
   this.render()
