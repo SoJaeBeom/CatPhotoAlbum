@@ -1,4 +1,4 @@
-export default function Nodes({ $app, initialState }) {
+export default function Nodes({ $app, initialState, onClick }) {
   this.state = initialState
 
   this.$target = document.createElement('ul')
@@ -9,11 +9,42 @@ export default function Nodes({ $app, initialState }) {
     this.render()
   }
 
+  this.onClick = onClick
+
   this.render = () => {
     console.log('Nodes render!!')
-    this.$target.innerHTML = this.state.nodes.map(
-      (node) => `<li>${node.name}</li>`,
-    )
+
+    if (this.state.nodes) {
+      const nodesTemplate = this.state.nodes
+        .map((node) => {
+          const iconPath =
+            node.type === 'FILE'
+              ? './assets/file.png'
+              : './assets/directory.png'
+
+          return `
+          <div class="Node" data-node-id="${node.id}">
+            <img src="${iconPath}" width="100px" height="100px" />
+            <div>${node.name}</div>
+          </div>
+        `
+        })
+        .join('')
+      this.$target.innerHTML = !this.state.isRoot
+        ? `<div class="Node"><img src="/assets/prev.png" width="90px" height="90px"></div>${nodesTemplate}`
+        : nodesTemplate
+    }
+
+    this.$target.querySelectorAll('.Node').forEach(($node) => {
+      $node.addEventListener('click', (e) => {
+        const { nodeId } = e.target.dataset
+        const selectedNode = this.state.nodes.find((node) => node.id === nodeId)
+
+        if (selectedNode) {
+          this.onClick(selectedNode)
+        }
+      })
+    })
   }
 
   this.render()
