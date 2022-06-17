@@ -45,6 +45,12 @@ export default function App($app) {
   const imageView = new ImageView({
     $app,
     initialState: this.state.selectedFilePath,
+    modalClose: () => {
+      this.setState({
+        ...this.state,
+        selectedFilePath: null,
+      })
+    },
   })
 
   const loading = new Loading({
